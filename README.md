@@ -1,2 +1,1 @@
-# ids-2018-miniproject
-Introduction to Data Science miniproject
+# Introduction to Data Science miniproject
