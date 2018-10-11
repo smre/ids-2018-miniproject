@@ -7,24 +7,12 @@ L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png", {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and <a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>'
 }).addTo(map);
 
-// Test markers
-const markers = [
-  {
-    lat: 60.1707,
-    lon: 24.9415,
-    text: "Rautatieasema"
-  },
-  {
-    lat: 60.1543,
-    lon: 24.9435,
-    text: "Eira"
-  },
-  {
-    lat: 60.1694,
-    lon: 24.9338,
-    text: "Kamppi"
-  }
-];
+// Create heatmap
+let heatArray = [];
+let points = getData();
+points.map(marker => heatArray.push([marker.latitude, marker.longitude, marker.amount]));
+// Heatmap options
+const heat = L.heatLayer(heatArray, {blur: 5, max: 30, radius: 7}).addTo(map);
 
 // Example of Kallio GeoJSON
 const kallioGeoJSON = {
@@ -135,18 +123,19 @@ const kallioGeoJSON = {
   }
 };
 
+/*
 // Add markers to the map
 const createMarkers = markers => {
   markers.map(marker => {
-    L.circleMarker(L.latLng(marker.lat, marker.lon), { radius: 5 })
+    L.circleMarker(L.latLng(marker.latitude, marker.longitude), { radius: 2, color: "#c0392b", weight: 1 })
       .addTo(map)
       .bindPopup(marker.text);
   });
 };
+*/
 
-createMarkers(markers);
-
+//createMarkers(markers);
 // Add Kallio GeoJSON area to the map
-L.geoJSON(kallioGeoJSON)
-  .addTo(map)
-  .bindPopup("Kallio GeoJSON area");
+//L.geoJSON(kallioGeoJSON, { radius: 4, color: "#c0392b", fillOpacity: 0, weight: 1 })
+//  .addTo(map)
+//  .bindPopup("Kallio GeoJSON area");
