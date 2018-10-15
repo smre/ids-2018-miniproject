@@ -2,140 +2,35 @@
 const map = L.map("map").setView([60.1691, 24.9415], 13);
 
 // Add OSM as map source
-L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png", {
+const basemap = L.tileLayer("https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png", {
   attribution:
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors and <a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>'
 }).addTo(map);
 
-// Create heatmap
+
+// Create a heatmap layer
 let heatArray = [];
 let points = getData();
 points.map(marker => heatArray.push([marker.latitude, marker.longitude, marker.amount]));
 // Heatmap options
-const heat = L.heatLayer(heatArray, {blur: 5, max: 30, radius: 7}).addTo(map);
+const heat = L.heatLayer(heatArray, {blur: 5, max: 30, radius: 7});
 
-// Example of Kallio GeoJSON
-const kallioGeoJSON = {
-  type: "Feature",
-  properties: {
-    Name: "kml_12",
-    descriptio:
-      '<center><table><tr><th colspan=\'2\' align=\'center\'><em>Attributes</em></th></tr><tr bgcolor="#E3E3F3">\n<th>ID</th>\n<td>112</td>\n</tr><tr bgcolor="">\n<th>TUNNUS</th>\n<td>112</td>\n</tr><tr bgcolor="#E3E3F3">\n<th>PERUSP_TN</th>\n<td>301</td>\n</tr><tr bgcolor=',
-    timestamp: null,
-    begin: null,
-    end: null,
-    altitudeMo: null,
-    tessellate: -1,
-    extrude: -1,
-    visibility: -1,
-    drawOrder: null,
-    icon: null,
-    snippet: null,
-    ID: "112",
-    TUNNUS: "112",
-    PERUSP_TN: "301",
-    SUURP_TN: "3",
-    KUNTA: "091",
-    NIMI: "Linjat",
-    NIMI_SE: "Linjerna",
-    PERUS_N_FI: "KALLIO",
-    PERUS_N_SE: "BERGHÄLL",
-    SUURP_N_FI: "KESKINEN",
-    SUURP_N_SE: "MELLERSTA",
-    KUNTA_NIMI: "HELSINKI",
-    KUNTA_N_SE: "HELSINGFORS",
-    KOKOTUNNUS: "0913301112",
-    ALUETASO: "osaalue",
-    ajo_pvm: "2015-01-22"
-  },
-  geometry: {
-    type: "Polygon",
-    coordinates: [
-      [
-        [24.933454087997301, 60.183165382745003, 0.0],
-        [24.9359825738591, 60.1851238619928, 0.0],
-        [24.936248232064901, 60.185162521466403, 0.0],
-        [24.937056444012001, 60.185280135552297, 0.0],
-        [24.937129070471599, 60.185290716126801, 0.0],
-        [24.937843527663102, 60.1853946741873, 0.0],
-        [24.9400679598387, 60.1857183286902, 0.0],
-        [24.940386202740999, 60.185764632730198, 0.0],
-        [24.941408512137698, 60.185913353349598, 0.0],
-        [24.9420312858424, 60.186003964663897, 0.0],
-        [24.942654054000499, 60.186094555097803, 0.0],
-        [24.943386275813801, 60.186201075871899, 0.0],
-        [24.943866211071899, 60.186229839694697, 0.0],
-        [24.944383332913201, 60.186260825335502, 0.0],
-        [24.945436559171402, 60.1862890687568, 0.0],
-        [24.9458195305156, 60.186299332113698, 0.0],
-        [24.946109437657501, 60.186307106285199, 0.0],
-        [24.946649443461698, 60.186320823681299, 0.0],
-        [24.946973591933901, 60.186329803466201, 0.0],
-        [24.947612483271701, 60.186346724769997, 0.0],
-        [24.948251375282702, 60.186363634020097, 0.0],
-        [24.948431350437001, 60.186368398279001, 0.0],
-        [24.949808112998799, 60.1864048282319, 0.0],
-        [24.949990124873299, 60.186409779629599, 0.0],
-        [24.950584045918902, 60.186425314358701, 0.0],
-        [24.951202306669199, 60.186441133624697, 0.0],
-        [24.9515630523806, 60.186450214382198, 0.0],
-        [24.951593975449999, 60.186158919518199, 0.0],
-        [24.951625100406901, 60.185858649289699, 0.0],
-        [24.951654396231302, 60.185576302284503, 0.0],
-        [24.9516714863713, 60.185413377737397, 0.0],
-        [24.951696104151399, 60.185168223136301, 0.0],
-        [24.951758809297601, 60.184567682686499, 0.0],
-        [24.951786902691399, 60.184298789314902, 0.0],
-        [24.951804505284102, 60.184117303735903, 0.0],
-        [24.9518178897494, 60.183979526916502, 0.0],
-        [24.952895143206899, 60.183567753686397, 0.0],
-        [24.953734942295199, 60.183241308131102, 0.0],
-        [24.954061640057802, 60.183114284873902, 0.0],
-        [24.9543883533429, 60.182987242864201, 0.0],
-        [24.954644736755501, 60.1828875510461, 0.0],
-        [24.954900163151901, 60.182788127668204, 0.0],
-        [24.955481238686101, 60.182561622826498, 0.0],
-        [24.956091370209599, 60.182323780123397, 0.0],
-        [24.9564887455616, 60.182140650939303, 0.0],
-        [24.956574717163502, 60.1821020848054, 0.0],
-        [24.956171917223401, 60.181954934836099, 0.0],
-        [24.954804655929301, 60.181455433289798, 0.0],
-        [24.954732000176101, 60.181428886125197, 0.0],
-        [24.954092683196802, 60.181195314249202, 0.0],
-        [24.953564102887601, 60.181002194448098, 0.0],
-        [24.953219647542898, 60.180932953613699, 0.0],
-        [24.952304997918599, 60.180598032864403, 0.0],
-        [24.951761419583399, 60.180398088109897, 0.0],
-        [24.951359917368801, 60.180553557350898, 0.0],
-        [24.950885090914099, 60.180738608159302, 0.0],
-        [24.950387946728899, 60.1809323550765, 0.0],
-        [24.949966713726699, 60.181096518866802, 0.0],
-        [24.9494937493691, 60.1813202225377, 0.0],
-        [24.948740159814399, 60.180973508854301, 0.0],
-        [24.946821187925401, 60.180208387843997, 0.0],
-        [24.9444172503114, 60.179857871790503, 0.0],
-        [24.943516218146499, 60.179726476676102, 0.0],
-        [24.938693349721699, 60.179907657374201, 0.0],
-        [24.935016459569301, 60.1800456625582, 0.0],
-        [24.933454087997301, 60.183165382745003, 0.0]
-      ]
-    ]
-  }
+// Add markers to a layer
+let ticketArray = [];
+points.map(marker => {
+    ticketArray.push(L.circleMarker(L.latLng(marker.latitude, marker.longitude), { radius: 2, color: "#D0021B", weight: 1, fillOpacity: 1 }));
+});
+
+let heatmap = L.layerGroup([heat]);
+let tickets = L.layerGroup(ticketArray);
+
+const baseMaps = {
+    //"Basemap": basemap,
 };
 
-/*
-// Add markers to the map
-const createMarkers = markers => {
-  markers.map(marker => {
-    L.circleMarker(L.latLng(marker.latitude, marker.longitude), { radius: 2, color: "#c0392b", weight: 1 })
-      .addTo(map)
-      .bindPopup(marker.text);
-  });
+const overlayMaps = {
+    "Tickets": tickets,
+    "Heatmap": heatmap
 };
-*/
 
-//createMarkers(markers);
-// Add Kallio GeoJSON area to the map
-//L.geoJSON(kallioGeoJSON, { radius: 4, color: "#c0392b", fillOpacity: 0, weight: 1 })
-//  .addTo(map)
-//  .bindPopup("Kallio GeoJSON area");
+L.control.layers(baseMaps, overlayMaps).addTo(map);
