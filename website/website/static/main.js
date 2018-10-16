@@ -21,16 +21,25 @@ points.map(marker => {
     ticketArray.push(L.circleMarker(L.latLng(marker.latitude, marker.longitude), { radius: 2, color: "#D0021B", weight: 1, fillOpacity: 1 }));
 });
 
-let heatmap = L.layerGroup([heat]);
-let tickets = L.layerGroup(ticketArray);
+// Add parking spots to a layer
+let parkingArray = [];
+let parkingSpots = getParking();
+parkingSpots.map(p => {
+    parkingArray.push(L.geoJSON(p, { color: "#417505", weight: 2 }));
+});
+
+let heatmapLayer = L.layerGroup([heat]);
+let ticketsLayer = L.layerGroup(ticketArray);
+let parkingLayer = L.layerGroup(parkingArray);
 
 const baseMaps = {
     //"Basemap": basemap,
 };
 
 const overlayMaps = {
-    "Tickets": tickets,
-    "Heatmap": heatmap
+    "Tickets": ticketsLayer,
+    "Heatmap": heatmapLayer,
+    "Parking": parkingLayer
 };
 
 L.control.layers(baseMaps, overlayMaps).addTo(map);
