@@ -28,9 +28,16 @@ parkingSpots.map(p => {
     parkingArray.push(L.geoJSON(p, { color: "#417505", weight: 2 }));
 });
 
+let serviceClusterArray = [];
+let clusters = getServiceClusters();
+clusters.map(p => {
+	serviceClusterArray.push(L.circleMarker(L.latLng(p.latitude, p.longitude), {radius: (p.count/6)+2, color: "#00DDDD", weight: 1, fillOpacity: 1}));
+});
+
 let heatmapLayer = L.layerGroup([heat]);
 let ticketsLayer = L.layerGroup(ticketArray);
 let parkingLayer = L.layerGroup(parkingArray);
+let serviceClusterLayer = L.layerGroup(serviceClusterArray);
 
 const baseMaps = {
     //"Basemap": basemap,
@@ -39,7 +46,10 @@ const baseMaps = {
 const overlayMaps = {
     "Tickets": ticketsLayer,
     "Heatmap": heatmapLayer,
-    "Parking": parkingLayer
+    "Parking": parkingLayer,
+    "ServiceClusters": serviceClusterLayer
 };
+
+
 
 L.control.layers(baseMaps, overlayMaps).addTo(map);
