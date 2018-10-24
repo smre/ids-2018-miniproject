@@ -118,3 +118,28 @@ function createLayers(base) {
 }
 
 createLayers(basemap);
+
+const getRiskHTML = (result) => {
+    console.log(result);
+    return `
+        <b>${result.properties.address.road} ${result.properties.address.house_number}</b><br>
+        Risk of receiving a parking ticket around this location is around ${Math.floor(Math.random() * 100)}%
+    `;
+};
+
+// Search
+L.Control.geocoder({
+    position: 'topleft',
+    defaultMarkGeocode: false
+}).on('markgeocode', function (result) {
+    result = result.geocode || result;
+    this._map.fitBounds(result.bbox);
+    if (this._geocodeMarker) {
+        this._map.removeLayer(this._geocodeMarker);
+    }
+    this._geocodeMarker = new L.Marker(result.center)
+        .bindPopup(getRiskHTML(result))
+        .addTo(this._map)
+        .openPopup();
+    return this;
+}).addTo(map);
