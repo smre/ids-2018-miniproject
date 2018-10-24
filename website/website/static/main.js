@@ -123,7 +123,7 @@ const getRiskHTML = (result) => {
     console.log(result);
     return `
         <b>${result.properties.address.road} ${result.properties.address.house_number}</b><br>
-        Risk of receiving a parking ticket around this location is around ${Math.floor(Math.random() * 100)}%
+        Risk of receiving a parking ticket around this location is about ${Math.floor(Math.random() * 100)}%
     `;
 };
 
